@@ -1,0 +1,21 @@
+schema: mcpg.dev/plugin/v1
+id: dev.mcpg.credential.azure-identity
+name: Azure Entra Workload-Identity Credentials
+license: BUSL-1.1
+description: |
+  A credential_issuer that issues Azure AD (Entra) bearer tokens for a
+  downstream resource per caller request. The gateway proves its own
+  workload identity to Entra — via federated workload identity (AKS),
+  a managed identity (IMDS), or a client secret — and receives a token
+  scoped to the target resource. identity_mapping is static
+  (operator-fixed scope/resource) or scope_template (derive the scope
+  from the caller's identity, v2 modes only); identity-derived scopes
+  require Verified trust, an https-URL shape check, and an optional
+  per-target allowlist. Tokens auto-expire (no revocation). On-Behalf-Of
+  (per-caller distinct Azure identities) is out of scope — a
+  credential_issuer never receives the caller's raw token.
+class: credential_issuer
+runtime: native-cdylib-v1
+protocol_version: "1.0"
+required_capabilities:
+  - network_outbound
